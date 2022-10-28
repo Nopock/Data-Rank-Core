@@ -86,7 +86,7 @@ Distributed under the AGPL-3.0 License. See `LICENSE.md` for more information.
 <!-- CONTACT -->
 ## Contact
 
-plugin-ninja - [@plugin-ninja](https://twitter.com/HyricalORG) - support@hyrical.org
+Hyrical - [@HyricalORG](https://twitter.com/HyricalORG) - support@hyrical.org
 
 Project Link: [https://github.com/Hyrical/Data](https://github.com/Hyrical/Data)
 
