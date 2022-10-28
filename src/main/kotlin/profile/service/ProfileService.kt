@@ -35,8 +35,9 @@ class ProfileService @Autowired constructor(val profileRepository: ProfileReposi
         }
     }
 
-    fun getHighestRank(cachedProfile: CachedProfile): Rank {
-        TODO()
+    fun getHighestRank(profile: CachedProfile): Rank? {
+        return rankService.search(profile.grants.filter { it.active }
+            .maxByOrNull { rankService.search(it.rankId)!!.weight }!!.rankId)
     }
 
     fun getActiveRanks(cachedProfile: CachedProfile): MutableList<Rank> {

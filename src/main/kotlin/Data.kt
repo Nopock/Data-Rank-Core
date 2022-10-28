@@ -2,6 +2,7 @@ package org.hyrical.data
 
 import co.aikar.commands.BukkitCommandManager
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import org.hyrical.data.cache.CacheManager
@@ -53,6 +54,10 @@ class DataApplication
 
 fun log(message: String) {
     Bukkit.getLogger().log(java.util.logging.Level.INFO, message)
+}
+
+fun translate(string: String): String {
+    return ChatColor.translateAlternateColorCodes('&', string)
 }
 
 val CONSOLE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000")
