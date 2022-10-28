@@ -12,9 +12,10 @@ data class Rank (
     var permissions: MutableList<String> = mutableListOf(),
     var parents: MutableList<String> = mutableListOf(),
 
-    var color: String,
+    var color: String = "&f",
 
     var prefix: String = "",
     var staff: Boolean = false,
     var default: Boolean = false,
+    var donator: Boolean = false,
 )

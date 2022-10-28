@@ -18,32 +18,7 @@ enum class TexturedButton(val texture: String) {
     TWITTER("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzY4NWEwYmU3NDNlOTA2N2RlOTVjZDhjNmQxYmEyMWFiMjFkMzczNzFiM2Q1OTcyMTFiYjc1ZTQzMjc5In19fQ=="),
     MAIL("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc4YTY2OWFkZWYxY2FkMzQ0YzYwYWM5NDYzMmQyOTVkMTM4OWFjY2VhYjI0YjVkMjA4YTllYmE4YmU0NWI3YyJ9fX0="),
     MONEY("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdiNjljOWRmYjYxMDY3Yzk0ODRkZjdkMDNlNjNmMTc4OTVjOWNkYTMzMjVjMmM1MzRhNWMyMjM1ODU1NzYzMSJ9fX0="),
-    A(""),
-    B(""),
-    C(""),
-    D(""),
-    E(""),
-    F(""),
-    G(""),
-    H(""),
-    I(""),
-    J(""),
-    K(""),
-    L(""),
-    M(""),
-    N(""),
-    O(""),
-    P(""),
-    Q(""),
-    R(""),
-    S(""),
-    T(""),
-    U(""),
-    V(""),
-    W(""),
-    X(""),
-    Y(""),
-    Z("");
+    RANK_ICON("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWU5N2Y5OWU5ZWRiODllZDdiMTMwOTBiOTE4Mzk3ZGFjNDdmYTdhNmVhMTA4MGU0MzljZDMzODBhMTYwMzFjOCJ9fX0=");
 
 
     fun construct(): ItemStack {

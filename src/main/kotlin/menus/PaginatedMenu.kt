@@ -1,5 +1,6 @@
 package org.hyrical.data.menus
 
+import org.apache.commons.io.filefilter.TrueFileFilter
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import kotlin.math.log
@@ -15,11 +16,7 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
 
     override fun getButtons(player: Player): Map<Int, Button> {
 
-        val time = System.currentTimeMillis()
-
         val buttons = mutableMapOf<Int, Button>()
-
-        Bukkit.broadcastMessage("Current page: $currentPage")
 
         buttons[getPageButtonPositions().first] = getPreviousPageButton(player)
         buttons[getPageButtonPositions().second] = getNextPageButton(player)
@@ -38,15 +35,21 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
             buttons[slot] = button
         }
 
+        val time = System.currentTimeMillis()
+
+        val minIndex = ((currentPage - 1) * getButtonsPerPage())
+        val maxIndex = (currentPage * getButtonsPerPage())
+
         var i = 0
+
+        val positions = getButtonPositions()
+        var lastPos = positions.first()
+        var lastIndex = 0
 
         for (button in paginatedButtons) {
             if (current >= size) return buttons
 
-
-            // TODO: Make system to filter pages
-            val minIndex = ((currentPage - 1) * getButtonsPerPage())
-            val maxIndex = (currentPage * getButtonsPerPage())
+            if (lastIndex - 1 >= positions.size) return buttons
 
 
             if (i !in minIndex until maxIndex) {
@@ -54,12 +57,20 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
                 continue
             }
 
-            if (getButtonPositions().isNotEmpty() && !getButtonPositions().contains(current)) {
-                // TODO: Fix this so it just goes to the next index instead of ignoring button
+            if (positions.isNotEmpty()) {
+                buttons[lastPos] = button
+                try {
+                    lastPos = positions[lastIndex + 1]
+                } catch (e: IndexOutOfBoundsException) {
+                    return buttons
+                }
+                lastIndex++
                 continue
             }
 
-            buttons[current] = button
+            if (!buttons.containsKey(current)) {
+                buttons[current] = button
+            }
 
             current++
             i++

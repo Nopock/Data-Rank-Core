@@ -1,6 +1,7 @@
 package org.hyrical.data.menus
 
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -19,15 +20,15 @@ class Button(
 
     companion object {
         fun of(itemstack: ItemStack): Button {
-            return Button({ itemstack })
+            return Button(item = { itemstack })
         }
 
-        fun placeholder(): Button {
+        fun placeholder(color: ChatColor = ChatColor.BLACK): Button {
             return Button(
                 { ItemBuilder {
                     type(Material.STAINED_GLASS_PANE)
                     name("&r")
-                    data(ColorUtils.)
+                    ColorUtils.CHAT_COLOR_TO_WOOL_DATA[color]?.toShort()?.let { it1 -> data(it1) }
                 }}
             )
         }

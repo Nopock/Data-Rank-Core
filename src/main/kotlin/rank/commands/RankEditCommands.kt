@@ -161,4 +161,22 @@ class RankEditCommands @Autowired constructor(val rankRepository: RankRepository
             player.sendMessage("§a§lRank parent removed!")
         }
     }
+
+    @Subcommand("setcolor")
+    fun onRankSetColor(player: Player, rank: Rank, color: String) {
+        rank.color = color
+        rankRepository.save(rank).subscribe {
+            rankService.save(it)
+            player.sendMessage("§a§lRank color updated!")
+        }
+    }
+
+    @Subcommand("setdonator")
+    fun onRankSetDonator(player: Player, rank: Rank, donator: Boolean) {
+        rank.donator = donator
+        rankRepository.save(rank).subscribe {
+            rankService.save(it)
+            player.sendMessage("§a§lRank donator updated!")
+        }
+    }
 }
