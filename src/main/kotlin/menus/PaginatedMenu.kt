@@ -42,8 +42,8 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
 
 
             // TODO: Make system to filter pages
-            val minIndex = ((currentPage - 1) * getButtonsPerPage().toDouble()).toInt()
-            val maxIndex = (currentPage * getButtonsPerPage().toDouble()).toInt()
+            val minIndex = ((currentPage - 1) * getButtonsPerPage())
+            val maxIndex = (currentPage * getButtonsPerPage())
 
             if (i !in minIndex until maxIndex) continue
 
@@ -89,10 +89,10 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
     open fun getPreviousPageButton(player: Player): Button {
         return Button.of(
             ItemBuilder(TexturedButton.PAGINATED_PREVIOUS_PAGE.construct()) {
-            name("&ePrevious Page")
-            amount(currentPage)
-            lore("&7Click to navigate to the previous page!")
-        }
+                name("&ePrevious Page")
+                amount(currentPage)
+                lore("&7Click to navigate to the previous page!")
+            }
         ).apply {
             action = { _, _ ->
                 Bukkit.broadcastMessage("Amount: $currentPage")
@@ -110,11 +110,7 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
     }
 
     open fun getButtonsPerPage(): Int {
-        if (getButtonPositions().isEmpty()) {
-            return size - 9
-        }
-
-        return getButtonPositions().size
+        return 18
     }
 
     fun nextPage(player: Player) {
