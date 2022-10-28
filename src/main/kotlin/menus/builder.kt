@@ -21,8 +21,6 @@ class ItemStackBuilder(var itemStack: ItemStack = ItemStack(Material.AIR)) {
     fun amount(amount: Int) = apply { itemStack.amount = amount }
 
     fun name(name: String) = apply {
-        Bukkit.broadcastMessage(itemStack.hasItemMeta().toString())
-        Bukkit.broadcastMessage(itemStack.type.toString())
         val meta = itemStack.itemMeta ?: Bukkit.getItemFactory().getItemMeta(itemStack.type);
         meta.displayName = translate(name)
         itemStack.itemMeta = meta
@@ -58,6 +56,10 @@ class ItemStackBuilder(var itemStack: ItemStack = ItemStack(Material.AIR)) {
         val meta = itemStack.itemMeta ?: Bukkit.getItemFactory().getItemMeta(itemStack.type);
         meta.addItemFlags(itemFlag)
         itemStack.itemMeta = meta
+    }
+
+    fun data(data: Short) = apply {
+        this.itemStack.durability = data
     }
 
     private fun translate(s: String): String {

@@ -8,17 +8,18 @@ import org.hyrical.data.rank.Rank
 import org.hyrical.data.rank.service.RankService
 import reactor.core.publisher.toMono
 
-class RankListMenu(val rankService: RankService) : PaginatedMenu({"Rank List" }, 27) {
+class RankListMenu(private val rankService: RankService) : PaginatedMenu({"Rank List" }, 27) {
     override fun getPaginatedButtons(): List<Button> {
+        val time = System.currentTimeMillis()
         val buttons = mutableListOf<Button>()
 
         for (rank in rankService.all(true)) {
             buttons.add(rankButton(rank))
-
-            Bukkit.broadcastMessage(rank.name)
         }
 
-        return buttons
+        return buttons.also {
+            println("Took ${System.currentTimeMillis() - time}ms to generate buttons")
+        }
     }
 
 
@@ -35,7 +36,13 @@ class RankListMenu(val rankService: RankService) : PaginatedMenu({"Rank List" },
         }
     }
 
-    override fun getButtonsPerPage(): Int {
-        return 14
+    override fun getGlobalButtons(): Map<Int, Button> {
+        return super.getGlobalButtons()
+    }
+
+    override fun getButtonPositions(): List<Int> {
+        return listOf(
+
+        )
     }
 }

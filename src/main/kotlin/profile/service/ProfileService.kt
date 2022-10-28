@@ -72,4 +72,8 @@ class ProfileService @Autowired constructor(val profileRepository: ProfileReposi
 
         return returned
     }
+
+    fun isStaff(cachedProfile: CachedProfile): Boolean {
+        return this.getActiveRanks(cachedProfile).any { it.staff }
+    }
 }

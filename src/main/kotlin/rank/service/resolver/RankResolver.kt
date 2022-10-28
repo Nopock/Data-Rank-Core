@@ -1,4 +1,4 @@
-package org.hyrical.data.rank.resolver
+package org.hyrical.data.rank.service.resolver
 
 import co.aikar.commands.BukkitCommandExecutionContext
 import co.aikar.commands.InvalidCommandArgument

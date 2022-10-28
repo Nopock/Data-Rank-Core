@@ -14,9 +14,12 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
     abstract fun getPaginatedButtons(): List<Button>
 
     override fun getButtons(player: Player): Map<Int, Button> {
+
+        val time = System.currentTimeMillis()
+
         val buttons = mutableMapOf<Int, Button>()
 
-        org.hyrical.data.log("Getting buttons for page $currentPage")
+        Bukkit.broadcastMessage("Current page: $currentPage")
 
         buttons[getPageButtonPositions().first] = getPreviousPageButton(player)
         buttons[getPageButtonPositions().second] = getNextPageButton(player)
@@ -25,48 +28,46 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
 
         var current = getButtonsStartAt()
 
-        maxPages = (getButtonsPerPage().toDouble() / paginatedButtons.size.toDouble()).roundToInt() + 1
+        maxPages = (paginatedButtons.size / (size - 2)).toDouble().let {
+            if (it % 1 == 0.0) it.toInt() else it.roundToInt() + 1
+        }
 
-        org.hyrical.data.log("Max pages: $maxPages")
+        Bukkit.broadcastMessage("Max pages: $maxPages")
 
         for ((slot, button) in getGlobalButtons()) {
             buttons[slot] = button
         }
 
         var i = 0
+
         for (button in paginatedButtons) {
-            org.hyrical.data.log("Adding button $i to slot $current")
-            if (current >= size) return buttons.also {
-                org.hyrical.data.log("Buttons: ${buttons.size} returned on line 39")
-            }
+            if (current >= size) return buttons
 
 
             // TODO: Make system to filter pages
             val minIndex = ((currentPage - 1) * getButtonsPerPage())
             val maxIndex = (currentPage * getButtonsPerPage())
 
-            if (i !in minIndex until maxIndex) continue
+
+            if (i !in minIndex until maxIndex) {
+                i++
+                continue
+            }
 
             if (getButtonPositions().isNotEmpty() && !getButtonPositions().contains(current)) {
-
                 // TODO: Fix this so it just goes to the next index instead of ignoring button
-                Bukkit.broadcastMessage("Skipping button $i line 49")
                 continue
             }
 
             buttons[current] = button
 
-            org.hyrical.data.log("Added button $i to slot $current")
-
             current++
             i++
         }
 
-        for (button in buttons.values) {
-            Bukkit.broadcastMessage("Button: ${button.item.invoke(player).itemMeta.displayName}")
+        return buttons.also {
+            Bukkit.broadcastMessage("Took ${System.currentTimeMillis() - time}ms to get buttons")
         }
-
-        return buttons
     }
 
     open fun getButtonPositions(): List<Int> {
@@ -76,7 +77,7 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
     open fun getNextPageButton(player: Player): Button {
         return Button.of(ItemBuilder(TexturedButton.PAGINATED_NEXT_PAGE.construct()) {
             name("&eNext Page")
-            amount(currentPage)
+            amount(if (currentPage >= 64) 64 else currentPage + 1)
             lore("&7Click to navigate to the next page!")
         }).apply {
             action = { _, _ ->
@@ -90,12 +91,11 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
         return Button.of(
             ItemBuilder(TexturedButton.PAGINATED_PREVIOUS_PAGE.construct()) {
                 name("&ePrevious Page")
-                amount(currentPage)
+                amount(if (currentPage <= 1) 1 else currentPage - 1)
                 lore("&7Click to navigate to the previous page!")
             }
         ).apply {
             action = { _, _ ->
-                Bukkit.broadcastMessage("Amount: $currentPage")
                 previousPage(player)
             }
         }
@@ -115,22 +115,24 @@ abstract class PaginatedMenu(title: (Player) -> String, val size: Int) : Menu(ti
 
     fun nextPage(player: Player) {
         if (currentPage + 1 == maxPages)  {
-            //playSound(MenuSound.ERROR)
+            playSound(player, MenuSound.FAIL)
             return
         }
 
         currentPage++
         updateItems(getButtons(player), player, clear = true)
+        playSound(player, MenuSound.SUCCESS)
     }
 
     fun previousPage(player: Player) {
         if (currentPage - 1 < 1)  {
-            //playSound(MenuSound.ERROR)
+            playSound(player, MenuSound.FAIL)
             return
         }
 
         currentPage--
         updateItems(getButtons(player), player, clear = true)
+        playSound(player, MenuSound.SUCCESS)
     }
 
     open fun getGlobalButtons(): Map<Int, Button> {

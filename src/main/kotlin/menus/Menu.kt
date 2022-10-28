@@ -1,7 +1,7 @@
 package org.hyrical.data.menus
 
 import org.bukkit.Bukkit
-import org.bukkit.Material
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.hyrical.data.log
@@ -9,18 +9,18 @@ import java.util.concurrent.CompletableFuture
 
 abstract class Menu(private val title: (Player) -> String, private val size: Int) {
 
-    val lastButtons = mutableMapOf<Int, Button>()
+    var lastButtons = mutableMapOf<Int, Button>()
 
     fun open(player: Player) {
         player.closeInventory()
-        val inventory = Bukkit.createInventory(null, size, title.invoke(player))
+        val inventory = Bukkit.createInventory(null, size, centerMenuTitle(title.invoke(player)))
 
         player.openInventory(inventory)
 
         updateItems(getButtons(player).also {
             lastButtons.clear()
             lastButtons.putAll(it)
-        }, player)
+        }, player, clear = true)
 
         MenuHandler.openedMenusMap[player.uniqueId] = this
     }
@@ -36,7 +36,7 @@ abstract class Menu(private val title: (Player) -> String, private val size: Int
         updateItems(menu.getButtons(player).also {
             lastButtons.clear()
             lastButtons.putAll(it)
-        }, player)
+        }, player, clear = true)
 
         MenuHandler.openedMenusMap[player.uniqueId] = menu
     }
@@ -44,20 +44,17 @@ abstract class Menu(private val title: (Player) -> String, private val size: Int
     fun updateItems(buttons: Map<Int, Button>, player: Player, clear: Boolean = false) {
         val inventory = player.openInventory.topInventory
 
-        log("Updating items for ${player.name} in ${this.title.invoke(player)}")
+        if (clear) inventory.clear()
 
-        if (clear) inventory.clear() 
+        lastButtons = buttons.toMutableMap()
 
-        CompletableFuture.runAsync {
-            buttons.forEach { button ->
-                val item = button.value.item.invoke(player)
-                
-                if (inventory.getItem(button.key) != item) {
+        buttons.forEach { button ->
+            val item = button.value.item.invoke(player)
 
-                    inventory.setItem(button.key, button.value.item.invoke(player)).also {
-                        log("Set item ${item.type} at slot ${button.key} for ${player.name}")
-                        button.value.runUpdatingTask(this, button.key, player)
-                    }
+            if (inventory.getItem(button.key) != item) {
+
+                inventory.setItem(button.key, button.value.item.invoke(player)).also {
+                    button.value.runUpdatingTask(this, button.key, player)
                 }
             }
         }
@@ -81,4 +78,14 @@ abstract class Menu(private val title: (Player) -> String, private val size: Int
         player.playSound(player.getLocation(), sound.sound, sound.volume, sound.pitch)
     }
 
+    fun centerMenuTitle(t: String): String {
+        val builder = StringBuilder()
+
+        val spaces: Int = 27 - ChatColor.stripColor(t).length
+
+        for (i in 0 until spaces) {
+            builder.append(" ")
+        }
+        return builder.toString() + t
+    }
 }

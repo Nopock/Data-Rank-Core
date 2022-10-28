@@ -1,11 +1,13 @@
 package org.hyrical.data.menus
 
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import org.hyrical.data.Data
+import org.hyrical.data.utils.ColorUtils
 
 class Button(
     var item: (Player) -> ItemStack,
@@ -18,6 +20,16 @@ class Button(
     companion object {
         fun of(itemstack: ItemStack): Button {
             return Button({ itemstack })
+        }
+
+        fun placeholder(): Button {
+            return Button(
+                { ItemBuilder {
+                    type(Material.STAINED_GLASS_PANE)
+                    name("&r")
+                    data(ColorUtils.)
+                }}
+            )
         }
 
     }
