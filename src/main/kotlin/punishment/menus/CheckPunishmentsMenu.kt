@@ -16,9 +16,10 @@ import org.hyrical.data.util.ColorUtils
 import org.hyrical.data.util.TimeUtil
 import java.util.*
 
-class CheckPunishmentsMenu(val profile: CachedProfile, private val punishmentRepository: PunishmentRepository, val profileService: ProfileService) : PaginatedMenu({"Punishments >> ${profile.name}" }, 45) {
+class CheckPunishmentsMenu(val profile: CachedProfile, private val punishmentRepository: PunishmentRepository, private val profileService: ProfileService) : PaginatedMenu({"Punishments" }, 45) {
 
     private var type: PunishmentType? = null
+    private var active:  Boolean? = null
 
     override fun getPaginatedButtons(): List<Button> {
         val buttons = mutableListOf<Button>()
@@ -28,20 +29,44 @@ class CheckPunishmentsMenu(val profile: CachedProfile, private val punishmentRep
                 buttons.add(punishmentButton(it))
             }
 
-            PunishmentType.WARN -> profile.punishments.filter { it.punishmentType == PunishmentType.WARN }.forEach {
-                buttons.add(punishmentButton(it))
+            PunishmentType.WARN -> profile.punishments.filter { it.punishmentType == PunishmentType.WARN  }.forEach {
+                if (active != null) {
+                    if (it.active == active) {
+                        buttons.add(punishmentButton(it))
+                    }
+                } else {
+                    buttons.add(punishmentButton(it))
+                }
             }
 
             PunishmentType.MUTE -> profile.punishments.filter { it.punishmentType == PunishmentType.MUTE }.forEach {
-                buttons.add(punishmentButton(it))
+                if (active != null) {
+                    if (it.active == active) {
+                        buttons.add(punishmentButton(it))
+                    }
+                } else {
+                    buttons.add(punishmentButton(it))
+                }
             }
 
             PunishmentType.BAN -> profile.punishments.filter { it.punishmentType == PunishmentType.BAN}.forEach {
-                buttons.add(punishmentButton(it))
+                if (active != null) {
+                    if (it.active == active) {
+                        buttons.add(punishmentButton(it))
+                    }
+                } else {
+                    buttons.add(punishmentButton(it))
+                }
             }
 
             PunishmentType.BLACKLIST -> profile.punishments.filter { it.punishmentType == PunishmentType.BLACKLIST}.forEach {
-                buttons.add(punishmentButton(it))
+                if (active != null) {
+                    if (it.active == active) {
+                        buttons.add(punishmentButton(it))
+                    }
+                } else {
+                    buttons.add(punishmentButton(it))
+                }
             }
         }
 
@@ -90,7 +115,7 @@ class CheckPunishmentsMenu(val profile: CachedProfile, private val punishmentRep
         }
     }
 
-    private fun filterButton(): Button {
+    private fun firstFilterButton(): Button {
         return Button.of(TexturedButton.FIRST_FILTER.construct().apply {
             ItemBuilder(this) {
                 name("&eType")
@@ -121,6 +146,33 @@ class CheckPunishmentsMenu(val profile: CachedProfile, private val punishmentRep
         }
     }
 
+    private fun secondFilterButton(): Button {
+        return Button.of(TexturedButton.FIRST_FILTER.construct().apply {
+            ItemBuilder(this) {
+                name("&eActive")
+                lore(
+                    "&e",
+                    if (this@CheckPunishmentsMenu.active == null) "&a&l➥ &r&7All" else "&7All",
+                    if (this@CheckPunishmentsMenu.active!!) "&a&l➥ &r&7Active" else "&7Active",
+                    if (!this@CheckPunishmentsMenu.active!!) "&a&l➥ &r&7Inactive" else "&7Inactive",
+                    "&e",
+                    "&7Click to filter the active filter.",
+                )
+            }
+        }).apply {
+            this.action = { p, _ ->
+                this@CheckPunishmentsMenu.active = when (active) {
+                    null -> true
+                    true -> false
+                    false -> null
+                }
+
+                playSound(player = p, MenuSound.CLICK)
+                updateItems(getButtons(p), p, true)
+            }
+        }
+    }
+
     override fun getGlobalButtons(): Map<Int, Button> {
         return mapOf(
             1 to Button.placeholder(),
@@ -143,7 +195,8 @@ class CheckPunishmentsMenu(val profile: CachedProfile, private val punishmentRep
             42 to Button.placeholder(),
             43 to Button.placeholder(),
             44 to Button.placeholder(),
-            9 to filterButton(),
+            9 to firstFilterButton(),
+            27 to secondFilterButton(),
         )
     }
 
