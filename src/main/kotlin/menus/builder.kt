@@ -28,13 +28,21 @@ class ItemStackBuilder(var itemStack: ItemStack = ItemStack(Material.AIR)) {
 
     fun lore(lore: List<String>) = apply {
         val meta = itemStack.itemMeta ?: Bukkit.getItemFactory().getItemMeta(itemStack.type);
-        meta.lore = lore.map { translate(it) }
+        if (meta.lore == null) {
+            meta.lore = lore.map { translate(it) }
+        } else {
+            meta.lore!!.addAll(lore.map { translate(it) })
+        }
         itemStack.itemMeta = meta
     }
 
     fun lore(vararg lore: String) = apply {
         val meta = itemStack.itemMeta ?: Bukkit.getItemFactory().getItemMeta(itemStack.type);
-        meta.lore = lore.map { translate(it) }
+        if (meta.lore == null) {
+            meta.lore = lore.map { translate(it) }
+        } else {
+            meta.lore!!.addAll(lore.map { translate(it) })
+        }
         itemStack.itemMeta = meta
     }
 

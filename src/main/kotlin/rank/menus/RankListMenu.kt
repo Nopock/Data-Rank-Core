@@ -6,6 +6,7 @@ import org.bukkit.entity.Player
 import org.hyrical.data.menus.*
 import org.hyrical.data.rank.Rank
 import org.hyrical.data.rank.service.RankService
+import org.hyrical.data.util.ColorUtils
 import reactor.core.publisher.toMono
 
 class RankListMenu(private val rankService: RankService) : PaginatedMenu({"Rank List" }, 45) {
@@ -35,11 +36,12 @@ class RankListMenu(private val rankService: RankService) : PaginatedMenu({"Rank 
 
 
     private fun rankButton(rank: Rank): Button {
-        return Button.of(TexturedButton.MAIL.construct().apply {
-            this.itemMeta = this.itemMeta.apply {
-                this.displayName = rank.displayName
-                this.lore = listOf("§7Click to view this rank's information.")
-            }
+        return Button.of( ItemBuilder {
+            type(Material.WOOL)
+            data(ColorUtils.CHAT_COLOR_TO_WOOL_DATA[ColorUtils.COLOR_TO_CHAT_COLOR[rank.color]]!!.toShort())
+            name(rank.displayName)
+
+            // TODO: Add lore and click to open rank editor
         }).apply {
             this.action = { _, _ ->
                 Bukkit.broadcastMessage("Clicked ${rank.name}")
@@ -48,7 +50,7 @@ class RankListMenu(private val rankService: RankService) : PaginatedMenu({"Rank 
     }
 
     private fun filterButton(): Button {
-        return Button.of(TexturedButton.RANK_ICON.construct().apply {
+        return Button.of(TexturedButton.FIRST_FILTER.construct().apply {
             ItemBuilder(this) {
                 name("&eRank Filter")
                 lore(
@@ -62,13 +64,14 @@ class RankListMenu(private val rankService: RankService) : PaginatedMenu({"Rank 
             }
         }).apply {
             this.action = { p, _ ->
-                Bukkit.broadcastMessage("Clicked filter")
                 this@RankListMenu.filter = when (filter) {
                     null -> "staff"
                     "staff" -> "donator"
                     "donator" -> null
                     else -> null
                 }
+
+                playSound(player = p, MenuSound.CLICK)
 
                 updateItems(getButtons(p), p, true)
             }

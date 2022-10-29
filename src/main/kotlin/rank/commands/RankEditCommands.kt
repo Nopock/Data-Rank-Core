@@ -14,13 +14,14 @@ import org.hyrical.data.rank.Rank
 import org.hyrical.data.rank.menus.RankListMenu
 import org.hyrical.data.rank.repository.RankRepository
 import org.hyrical.data.rank.service.RankService
+import org.hyrical.data.util.SpigotColor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.DependsOn
 import org.springframework.stereotype.Component
 
 
 @Component
-@DependsOn("rankResolver")
+@DependsOn("rankResolver", "colorResolver")
 @CommandAlias("rank")
 @CommandPermission("data.ranks.admin")
 class RankEditCommands @Autowired constructor(val rankRepository: RankRepository, val profileService: ProfileService, val rankService: RankService) : BaseCommand() {
@@ -163,8 +164,8 @@ class RankEditCommands @Autowired constructor(val rankRepository: RankRepository
     }
 
     @Subcommand("setcolor")
-    fun onRankSetColor(player: Player, rank: Rank, color: String) {
-        rank.color = color
+    fun onRankSetColor(player: Player, rank: Rank, color: SpigotColor) {
+        rank.color = color.color
         rankRepository.save(rank).subscribe {
             rankService.save(it)
             player.sendMessage("§a§lRank color updated!")

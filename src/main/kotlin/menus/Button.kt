@@ -4,11 +4,10 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import org.hyrical.data.Data
-import org.hyrical.data.utils.ColorUtils
+import org.hyrical.data.util.ColorUtils
 
 class Button(
     var item: (Player) -> ItemStack,

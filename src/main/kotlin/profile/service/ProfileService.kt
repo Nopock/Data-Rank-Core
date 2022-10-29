@@ -40,6 +40,10 @@ class ProfileService @Autowired constructor(val profileRepository: ProfileReposi
             .maxByOrNull { rankService.search(it.rankId)!!.weight }!!.rankId)
     }
 
+    fun getChatColor(profile: CachedProfile): String {
+        return getHighestRank(profile)!!.color
+    }
+
     fun getActiveRanks(cachedProfile: CachedProfile): MutableList<Rank> {
         return cachedProfile.grants.map {
             rankService.search(it.rankId)!!

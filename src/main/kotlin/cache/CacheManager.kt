@@ -48,14 +48,16 @@ class CacheManager {
     fun cache(uuid: UUID, username: String): CachedProfile {
         val profile = profileRepository.findById(uuid.toString()).block()
 
-        return if (profile != null) {
-            cache(profile)
+        return if (profileRepository.existsById(uuid.toString()).block() == true) {
+            cache(profile!!)
         } else {
             cache(
                 Profile.create(uuid, username).also {
                     profileRepository.save(it).subscribe {
                         log("Saved profile ${it.username} to database.")
                     }
+
+                    // TODO: Fix this being granted if they aren't in the cache i believe
                     grantService.grantDefault(it)
                 }
             )

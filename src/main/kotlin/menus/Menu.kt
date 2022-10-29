@@ -11,6 +11,8 @@ abstract class Menu(private val title: (Player) -> String, private val size: Int
 
     var lastButtons = mutableMapOf<Int, Button>()
 
+    val BAR = "&7&m---------------------"
+
     fun open(player: Player) {
         player.closeInventory()
         val inventory = Bukkit.createInventory(null, size, centerMenuTitle(title.invoke(player)))

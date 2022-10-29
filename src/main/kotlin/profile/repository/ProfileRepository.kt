@@ -8,7 +8,7 @@ import java.util.*
 
 @Repository
 interface ProfileRepository : ReactiveMongoRepository<Profile, String> {
-
+    
     fun findByUsername(username: String): Mono<Profile>
 
     fun existsByUsername(username: String): Mono<Boolean>

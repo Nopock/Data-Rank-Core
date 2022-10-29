@@ -9,13 +9,13 @@ data class Punishment(
     @Id val id: UUID,
     val userId: UUID,
     val issuedBy: UUID,
-    val issuedAt: Long,
+    val issuedAt: Long = System.currentTimeMillis(),
     val issuedReason: String,
     val duration: Long,
-    var removedBy: UUID?,
-    var removedAt: Long?,
-    var removedReason: String?,
+    var removedBy: UUID? = null,
+    var removedAt: Long? = null,
+    var removedReason: String? = null,
     val punishmentType: PunishmentType
 ) {
-    val active: Boolean get() = removedAt == null || removedAt!! + duration > System.currentTimeMillis()
+    val active: Boolean get() = if (duration == -1L && removedAt == null) true else System.currentTimeMillis() < issuedAt + duration
 }

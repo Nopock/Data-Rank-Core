@@ -1,4 +1,4 @@
-package org.hyrical.data.utils
+package org.hyrical.data.util
 
 import org.bukkit.ChatColor
 
@@ -38,5 +38,23 @@ object ColorUtils {
         ChatColor.GRAY to 8,
         ChatColor.DARK_GRAY to 7,
         ChatColor.BLACK to 15
+    )
+
+    val COLOR_TO_CHAT_COLOR = mapOf(
+        "&f" to ChatColor.WHITE,
+        "&6" to ChatColor.GOLD,
+        "&b" to ChatColor.AQUA,
+        "&e" to ChatColor.YELLOW,
+        "&a" to ChatColor.GREEN,
+        "&d" to ChatColor.LIGHT_PURPLE,
+        "&7" to ChatColor.GRAY,
+        "&8" to ChatColor.DARK_GRAY,
+        "&3" to ChatColor.DARK_AQUA,
+        "&5" to ChatColor.DARK_PURPLE,
+        "&1" to ChatColor.BLUE,
+        "&2" to ChatColor.DARK_GREEN,
+        "&c" to ChatColor.RED,
+        "&4" to ChatColor.DARK_RED,
+        "&0" to ChatColor.BLACK
     )
 }
