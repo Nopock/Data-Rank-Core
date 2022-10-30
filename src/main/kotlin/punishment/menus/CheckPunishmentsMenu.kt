@@ -24,49 +24,33 @@ class CheckPunishmentsMenu(val profile: CachedProfile, private val punishmentRep
     override fun getPaginatedButtons(): List<Button> {
         val buttons = mutableListOf<Button>()
 
+        var punishments = profile.punishments
+
+        if (active == true) {
+            punishments = punishments.filter { it.active }.toMutableList()
+        } else if (active == false) {
+            punishments = punishments.filter { !it.active }.toMutableList()
+        }
+
         when(type) {
-            null -> profile.punishments.forEach {
+            null -> punishments.forEach {
                 buttons.add(punishmentButton(it))
             }
 
-            PunishmentType.WARN -> profile.punishments.filter { it.punishmentType == PunishmentType.WARN  }.forEach {
-                if (active != null) {
-                    if (it.active == active) {
-                        buttons.add(punishmentButton(it))
-                    }
-                } else {
-                    buttons.add(punishmentButton(it))
-                }
+            PunishmentType.WARN -> punishments.filter { it.punishmentType == PunishmentType.WARN  }.forEach {
+                buttons.add(punishmentButton(it))
             }
 
-            PunishmentType.MUTE -> profile.punishments.filter { it.punishmentType == PunishmentType.MUTE }.forEach {
-                if (active != null) {
-                    if (it.active == active) {
-                        buttons.add(punishmentButton(it))
-                    }
-                } else {
-                    buttons.add(punishmentButton(it))
-                }
+            PunishmentType.MUTE -> punishments.filter { it.punishmentType == PunishmentType.MUTE }.forEach {
+                buttons.add(punishmentButton(it))
             }
 
-            PunishmentType.BAN -> profile.punishments.filter { it.punishmentType == PunishmentType.BAN}.forEach {
-                if (active != null) {
-                    if (it.active == active) {
-                        buttons.add(punishmentButton(it))
-                    }
-                } else {
-                    buttons.add(punishmentButton(it))
-                }
+            PunishmentType.BAN -> punishments.filter { it.punishmentType == PunishmentType.BAN}.forEach {
+                buttons.add(punishmentButton(it))
             }
 
-            PunishmentType.BLACKLIST -> profile.punishments.filter { it.punishmentType == PunishmentType.BLACKLIST}.forEach {
-                if (active != null) {
-                    if (it.active == active) {
-                        buttons.add(punishmentButton(it))
-                    }
-                } else {
-                    buttons.add(punishmentButton(it))
-                }
+            PunishmentType.BLACKLIST -> punishments.filter { it.punishmentType == PunishmentType.BLACKLIST}.forEach {
+                buttons.add(punishmentButton(it))
             }
         }
 
@@ -153,8 +137,8 @@ class CheckPunishmentsMenu(val profile: CachedProfile, private val punishmentRep
                 lore(
                     "&e",
                     if (this@CheckPunishmentsMenu.active == null) "&a&l➥ &r&7All" else "&7All",
-                    if (this@CheckPunishmentsMenu.active!!) "&a&l➥ &r&7Active" else "&7Active",
-                    if (!this@CheckPunishmentsMenu.active!!) "&a&l➥ &r&7Inactive" else "&7Inactive",
+                    if (this@CheckPunishmentsMenu.active == true) "&a&l➥ &r&7Active" else "&7Active",
+                    if (this@CheckPunishmentsMenu.active == false) "&a&l➥ &r&7Inactive" else "&7Inactive",
                     "&e",
                     "&7Click to filter the active filter.",
                 )
