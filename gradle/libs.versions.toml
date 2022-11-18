@@ -8,7 +8,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 intellij-settings = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.5" }
 
 [libraries]
-logback = { module = "ch.qos.logback:logback-classic", version = "1.2.11" }
+logback = { module = "ch.qos.logback:logback-classic", version = "1.4.5" }
 jsoup = { module = "org.jsoup:jsoup", version = "1.15.3" }
 jda-core = { module = "net.dv8tion:JDA", version = "5.0.0-alpha.21" }
 jda-kotlin = { module = "com.github.minndevelopment:jda-ktx", version = "fc7d7de" }
