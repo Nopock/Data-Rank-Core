@@ -5,7 +5,7 @@ kotlin = "1.7.0"
 shadowjar = { id = "com.github.johnrengelman.shadow", version = "7.1.2" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-intellij-settings = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.5" }
+intellij-settings = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
 
 [libraries]
 logback = { module = "ch.qos.logback:logback-classic", version = "1.2.11" }
