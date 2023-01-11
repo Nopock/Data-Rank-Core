@@ -11,7 +11,7 @@ intellij-settings = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.
 logback = { module = "ch.qos.logback:logback-classic", version = "1.2.11" }
 jsoup = { module = "org.jsoup:jsoup", version = "1.15.3" }
 jda-core = { module = "net.dv8tion:JDA", version = "5.0.0-alpha.21" }
-jda-kotlin = { module = "com.github.minndevelopment:jda-ktx", version = "fc7d7de" }
+jda-kotlin = { module = "com.github.minndevelopment:jda-ktx", version = "0.7.0" }
 jda-captcha = { module = "com.github.yiding-he:hydrogen-captcha", version = "be0361ec56" }
 kotlin-mongo = { module = "org.litote.kmongo:kmongo", version = "4.8.0" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
