@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.intellij.settings)
     alias(libs.plugins.shadowjar)
-    id("org.springframework.boot") version "2.7.5"
+    id("org.springframework.boot") version "2.7.8"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     kotlin("plugin.spring") version "1.6.21"
 }
