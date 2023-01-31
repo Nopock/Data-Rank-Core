@@ -18,4 +18,4 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 kotlin-serialization-yaml = { module = "net.mamoe.yamlkt:yamlkt", version = "0.12.0" }
 kotlin-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version = "1.4.1" }
 openai-client = { module = "com.aallam.openai:openai-client", version = "2.0.0"}
-ktor-client = { module = "io.ktor:ktor-client-java", version = "2.1.2"}
+ktor-client = { module = "io.ktor:ktor-client-java", version = "2.2.3"}
