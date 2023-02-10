@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.7.0"
+kotlin = "1.8.10"
 
 [plugins]
 shadowjar = { id = "com.github.johnrengelman.shadow", version = "7.1.2" }
